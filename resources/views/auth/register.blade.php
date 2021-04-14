@@ -49,10 +49,13 @@
                     <div class="col-xs-8">
 
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-8">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">
                             {{ trans('global.register') }}
                         </button>
+                        <a href="{{ route('admin.userlogin') }}">
+                            Already Registered? Login
+                        </a>
                     </div>
                 </div>
             </div>

@@ -9,6 +9,14 @@
                     {{ trans('global.dashboard') }}
                 </a>
             </li>
+            <li>
+                <a href="{{ route("myusers.index") }}">
+                    <i class="fas fa-tachometer-alt">
+
+                    </i>
+                    Users
+                </a>
+            </li>
             @can('user_management_access')
                 <li class="treeview">
                     <a>

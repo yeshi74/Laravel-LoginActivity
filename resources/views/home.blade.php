@@ -1,23 +1,12 @@
 @extends('layouts.admin')
 @section('content')
     <div class="content">
-        <div class="row">
-            @foreach ($number_blocks as $block)
-            <div class="col-md-4 ">
-                <div class="info-box">
-                        <span class="info-box-icon bg-red"
-                              style="display:flex; flex-direction: column; justify-content: center;">
-                            <i class="fa fa-chart-line"></i>
-                        </span>
 
-                    <div class="info-box-content">
-                        <span class="info-box-text">{{ $block['title'] }}</span>
-                        <span class="info-box-number">{{ $block['number'] }}</span>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
+        @if(session()->has('success'))
+    <div class="alert alert-danger" id="dangerid">
+        {{ session()->get('success') }}
+    </div>
+@endif
 
         <div class="row">
             @foreach ($list_blocks as $block)
@@ -28,15 +17,25 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            {{-- <th>Password</th> --}}
                             <th>Last login at</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse($block['entries'] as $entry)
                             <tr>
-                                <td>{{ $entry->name }}</td>
+                                <td>{{ $entry->title }} {{ $entry->name }}</td>
                                 <td>{{ $entry->email }}</td>
+                                {{-- <td>{{ $entry->password }}</td> --}}
                                 <td>{{ $entry->last_login_at }}</td>
+                                <td>
+                                    <form action="{{ route('myusers.delete', $entry->id) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this user?')" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -49,16 +48,11 @@
             @endforeach
         </div>
 
-        <div class="row">
-            <div class="{{ $chart->options['column_class'] }}">
-                <h3>{!! $chart->options['chart_title'] !!}</h3>
-                {!! $chart->renderHtml() !!}
-            </div>
-        </div>
+<script>
+setTimeout(function() {
+    $('#dangerid').fadeOut('fast');
+}, 3000);
+</script>
+
     </div>
-@endsection
-@section('scripts')
-    @parent
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    {!! $chart->renderJs() !!}
 @endsection
